@@ -7,5 +7,6 @@
 5. It keeps checking the folder and when a new picture is uploaded there, it's downloaded locally and shown for 20 seconds. Then the slideshow continues.
 
 # Setup
-1. Edit the script and change the `folder_id = 'YOUR_GOOGLE_DRIVE_FOLDER_ID'`
-2. Log into your Google Cloud console, create a service with OAuth and download the credentials json into `credentials.json`
+1. Install python libs: `pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib pillow schedule`
+2. Edit the script and change the `folder_id = 'YOUR_GOOGLE_DRIVE_FOLDER_ID'`
+3. Log into your Google Cloud console, create a service with OAuth and download the credentials json into `credentials.json`
