@@ -16,8 +16,9 @@ import random
 # Set up Google Drive API
 SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
 folder_id = 'YOUR_GOOGLE_DRIVE_FOLDER_ID'  # Replace with your folder ID
-INTERVAL_PICTURE_ALL = 5
-INTERVAL_PICTURE_NEW = 20
+INTERVAL_SLIDESHOW_PICTURE_ALL = 5  # time in seconds
+INTERVAL_SLIDESHOW_PICTURE_NEW = 20 # time in seconds
+INTERVAL_CHECKING_NEW_PHOTOS   = 10 # time in seconds
 downloaded_photos = set()
 new_photo_display_event = threading.Event()
 
@@ -105,12 +106,12 @@ def display_slideshow():
                 for photo in photos:
                     if not new_photo_display_event.is_set():
                         update_image(os.path.join('photos', photo))
-                        time.sleep(INTERVAL_PICTURE_ALL)  # Display each photo for 5 seconds
+                        time.sleep(INTERVAL_SLIDESHOW_PICTURE_ALL)  # Display each photo for 5 seconds
                     else:
                         new_photo_display_event.wait()
                         new_photo_display_event.clear()
                         show_latest_photo()
-                        time.sleep(INTERVAL_PICTURE_NEW)  # Display each photo for 5 seconds
+                        time.sleep(INTERVAL_SLIDESHOW_PICTURE_NEW)  # Display each photo for 5 seconds
                         break
 
     def show_latest_photo():
@@ -137,7 +138,7 @@ if __name__ == '__main__':
     download_photos(service)
 
     # Schedule the check for new photos every minute
-    schedule.every(10).seconds.do(check_for_new_photos, service)
+    schedule.every(INTERVAL_CHECKING_NEW_PHOTOS).seconds.do(check_for_new_photos, service)
 
     # Run the slideshow
     slideshow_thread = threading.Thread(target=display_slideshow)
